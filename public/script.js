@@ -1,18 +1,24 @@
 let socket=io()
+ 
 
-let btnsend=document.getElementById('btnsend')
-let inpmsg=document.getElementById('newmsg')
-let ulmsglist=document.getElementById('ulmsglist')
+$('#loginbox').show()
+$('#chatbox').hide()
 
-btnsend.onclick=function (){
-    socket.emit('msg_send',{
-        msg:inpmsg.value
+$('#btnstart').click(()=>{
+    socket.emit('login',{
+        username:$('#inpusername').val()
     })
-    inpmsg.value=""
-}
+})
 
-socket.on('msg_rcvd',(data)=>{
-    let linewmsg=document.createElement('li')
-    linewmsg.innerText=data.msg
-    ulmsglist.appendChild(linewmsg)
+socket.on('logged_in',()=>{
+
+    $('#loginbox').hide()
+    $('#chatbox').show()
+})
+
+$('#btnsendmsg').click(()=>{
+    socket.emit('msg_send',{
+        to:$('#inptouser').val(),
+        msg:$('#inpnewmsg').val()
+    })
 })

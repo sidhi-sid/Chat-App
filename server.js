@@ -7,8 +7,10 @@ const server=http.createServer(app) //creating server
 const io=socketio(server)
 io.on('connection',(socket)=>{
     console.log("Connected with socket id =",socket.id)
-    socket.on('msg_send',(data)=>{
-        io.emit('msg_rcvd',data) //sends it to every socket simultaneously
+    socket.on('login',(data)=>{
+       socket.join(data.username)
+       socket.emit('logged_in')
+        //io.emit()sends it to every socket simultaneously
         //socket.broadcast.emit('msg_rcvd',data) it sends the data to every socket excluding the one who sends it
         //socket.emit only sends it to the current socket
     })
