@@ -22,3 +22,7 @@ $('#btnsendmsg').click(()=>{
         msg:$('#inpnewmsg').val()
     })
 })
+
+socket.on('msg_rcvd',(data)=>{
+    $('#ulmsgs').append($('<li>').text(data.msg))
+})
