@@ -6,7 +6,8 @@ $('#chatbox').hide()
 
 $('#btnstart').click(()=>{
     socket.emit('login',{
-        username:$('#inpusername').val()
+        username:$('#inpusername').val(),
+        password:$('#inppass').val()
     })
 })
 
@@ -14,6 +15,10 @@ socket.on('logged_in',()=>{
 
     $('#loginbox').hide()
     $('#chatbox').show()
+})
+
+socket.on('login_failed',()=>{
+    window.alert('Username or Password is wrong')
 })
 
 $('#btnsendmsg').click(()=>{

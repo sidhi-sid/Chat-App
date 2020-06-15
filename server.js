@@ -5,11 +5,27 @@ const socketio=require('socket.io')
 
 const server=http.createServer(app) //creating server
 const io=socketio(server)
+
+let users={
+    'sid':'sid123'
+}
+
 io.on('connection',(socket)=>{
     console.log("Connected with socket id =",socket.id)
     socket.on('login',(data)=>{
-       socket.join(data.username)
-       socket.emit('logged_in')
+        if(users[data.username]){
+            if(users[data.username]==data.password){
+                socket.join(data.username)
+            socket.emit('logged_in') 
+            }else{
+                socket.emit('login_failed')
+            }
+        }else{
+            users[data.username]=data.password
+            socket.join(data.username)
+            socket.emit('logged_in')
+        }
+      
         //io.emit()sends it to every socket simultaneously
         //socket.broadcast.emit('msg_rcvd',data) it sends the data to every socket excluding the one who sends it
         //socket.emit only sends it to the current socket
